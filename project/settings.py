@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     ### app of project ###
     'ticket',
+    #### phonenumber package #####
+    'phonenumber_field',
 
 ]
 
