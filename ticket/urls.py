@@ -18,4 +18,10 @@ urlpatterns = [
     #### for GET (one object by id) & PUT (update) & DELETE  methods #####
     path('cbv/list_movies/<int:id>', Object_process.as_view()),
     
+            ########## by mixins ############
+    #### for GET (list objects) & POST methods #####
+    path('cbv/mixins/list_movies/', list_movies_mixins.as_view()),
+    #### for GET (one object by id) & PUT (update) & DELETE  methods #####
+    path('cbv/mixins/list_movies/<int:pk>', spesific_movie_mixins.as_view()),
+    
 ]

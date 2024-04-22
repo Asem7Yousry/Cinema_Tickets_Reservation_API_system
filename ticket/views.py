@@ -5,7 +5,7 @@ from .serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status , mixins , generics
 from django.http import Http404
 
 # 1_ without rest_framework or models (static json data)
@@ -155,5 +155,30 @@ class Object_process(APIView):
         movie.delete()
         return Response(status= status.HTTP_204_NO_CONTENT)
 
+##### ########  CBV by using mixins  ########## ######
+##### endpoint to list all movies and post new movie #####
+class list_movies_mixins(mixins.ListModelMixin, mixins.CreateModelMixin , generics.GenericAPIView):
+    ##### get queryset and serializer ######
+    queryset = Movie.objects.all()
+    serializer_class = Movie_Serializer
+    ### get method for all movies ###
+    def get(self , request):
+        return self.list(request)
+    ### post method for new movie ###
+    def post(self, request):
+        return self.create(request)
 
-
+####### endpoint to retrieve spesific movie and update and delete ######
+class spesific_movie_mixins(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,generics.GenericAPIView):
+    ##### queryset and serializer #######
+    queryset = Movie.objects.all()
+    serializer_class = Movie_Serializer
+    ### retrieve method #####
+    def get(self , request , pk):
+        return self.retrieve(request)
+    ### retrieve method #####
+    def put(self , request , pk):
+        return self.update(request)
+    ### retrieve method #####
+    def delete(self , request , pk):
+        return self.destroy(request)
