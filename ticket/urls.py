@@ -23,5 +23,11 @@ urlpatterns = [
     path('cbv/mixins/list_movies/', list_movies_mixins.as_view()),
     #### for GET (one object by id) & PUT (update) & DELETE  methods #####
     path('cbv/mixins/list_movies/<int:pk>', spesific_movie_mixins.as_view()),
+
+            ########## by generics ############
+    #### for GET (list objects) & POST methods #####
+    path('cbv/generics/list_movies/', ListMoviesGeneric.as_view()),
+    #### for GET (one object by id) & PUT (update) & DELETE  methods #####
+    path('cbv/generics/list_movies/<int:pk>', MovieProcessGeneric.as_view()),
     
 ]

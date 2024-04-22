@@ -182,3 +182,14 @@ class spesific_movie_mixins(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mi
     ### retrieve method #####
     def delete(self , request , pk):
         return self.destroy(request)
+
+##### ########  CBV by using mixins  ########## ######
+##### endpoint to list all movies and post new movie #####
+class ListMoviesGeneric(generics.ListCreateAPIView):
+    queryset = Movie.objects.all()
+    serializer_class = Movie_Serializer
+
+####### endpoint to retrieve spesific movie and update and delete ######
+class MovieProcessGeneric(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Movie.objects.all()
+    serializer_class = Movie_Serializer
