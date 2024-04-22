@@ -5,7 +5,7 @@ from .serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status , mixins , generics
+from rest_framework import status , mixins , generics , viewsets , filters
 from django.http import Http404
 
 # 1_ without rest_framework or models (static json data)
@@ -183,7 +183,7 @@ class spesific_movie_mixins(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mi
     def delete(self , request , pk):
         return self.destroy(request)
 
-##### ########  CBV by using mixins  ########## ######
+##### ########  CBV by using generics  ########## ######
 ##### endpoint to list all movies and post new movie #####
 class ListMoviesGeneric(generics.ListCreateAPIView):
     queryset = Movie.objects.all()
@@ -193,3 +193,24 @@ class ListMoviesGeneric(generics.ListCreateAPIView):
 class MovieProcessGeneric(generics.RetrieveUpdateDestroyAPIView):
     queryset = Movie.objects.all()
     serializer_class = Movie_Serializer
+
+##### ########  CBV by using ViewSet  ########## ######
+        ##### For Movies #####
+##### endpoint to list all movies and post new movie besides retrieve spesific movie and update and delete #####
+class Movie_ViewSet(viewsets.ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = Movie_Serializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title']
+    
+        #### for guests ######
+class GuestsViewset(viewsets.ModelViewSet):
+    queryset = Guest.objects.all()
+    serializer_class = Guest_Serializer
+
+        #### for reservation ######
+class ReservationViewset(viewsets.ModelViewSet):
+    queryset = Reservation.objects.all()
+    serializer_class = Reservation_Serializer
+
+

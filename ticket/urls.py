@@ -1,5 +1,13 @@
 from django.urls import path , include
 from .views import *
+from rest_framework.routers import DefaultRouter
+
+## router for all viewsets ##
+router = DefaultRouter()
+### register for each viewset router ###
+router.register('movies',Movie_ViewSet)
+router.register('guest',GuestsViewset)
+router.register('reservation',ReservationViewset)
 
 urlpatterns = [
     path('no_rest/',no_model_no_rest_framework),
@@ -29,5 +37,10 @@ urlpatterns = [
     path('cbv/generics/list_movies/', ListMoviesGeneric.as_view()),
     #### for GET (one object by id) & PUT (update) & DELETE  methods #####
     path('cbv/generics/list_movies/<int:pk>', MovieProcessGeneric.as_view()),
+
+            ########## by viewset ############
+    #### for GET (list objects) & POST methods #####
+    path('cbv/viewset/', include(router.urls)),
+    
     
 ]
