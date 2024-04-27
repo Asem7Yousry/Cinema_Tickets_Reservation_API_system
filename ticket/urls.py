@@ -41,6 +41,15 @@ urlpatterns = [
             ########## by viewset ############
     #### for GET (list objects) & POST methods #####
     path('cbv/viewset/', include(router.urls)),
+
+    ### search movie view ##
+    path('search_movie/',search_movie),
+    
+    ### create new movie view ##
+    path('MovieCreate/',MovieCreate.as_view()),
+
+    ### create new reservation view ##
+    path('create_reservation/',CreateReservation.as_view()),
     
     
 ]

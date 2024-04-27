@@ -213,4 +213,49 @@ class ReservationViewset(viewsets.ModelViewSet):
     queryset = Reservation.objects.all()
     serializer_class = Reservation_Serializer
 
+#### view to search on movies ###
+@api_view(['GET'])
+def search_movie(request):
+    if request.method == 'GET':
+        ## quesryset ##
+        movies = Movie.objects.filter(
+            title = request.data['title'],
+        )
+        ## serialize ##
+        serializer = Movie_Serializer(movies, many= True)
+        return Response(serializer.data)
+    
+### api view to create new view ###
+class MovieCreate(generics.CreateAPIView):
+    queryset = Movie.objects.all()
+    serializer_class = Movie_Serializer
 
+### create new reservation ###
+class CreateReservation(mixins.CreateModelMixin, generics.GenericAPIView):
+    serializer_class = Reservation_Serializer
+    
+    def post(self , request):
+        return self.create(request)
+    
+
+# class CreateReservation(APIView):
+#     def post(self , request):
+#         deserialized_reservation = Reservation_Serializer(data= request.data)
+#         if deserialized_reservation.is_valid():
+#             deserialized_reservation.save()
+#             return Response(deserialized_reservation.data , status= status.HTTP_201_CREATED)
+#         else:
+#             return Response(deserialized_reservation.data , status= status.HTTP_400_BAD_REQUEST)
+
+# @api_view(['POST'])
+# def create_reservation(request):
+#     if request.method == 'POST':
+#         reservation_serialized = Reservation_Serializer(data= request.data)
+#         ## check validation ##
+#         if reservation_serialized.is_valid():
+#             ### save request data ###
+#             reservation_serialized.save()
+#             ### response with requested data with status code ###
+#             return Response(reservation_serialized.data , status= status.HTTP_201_CREATED)
+#         else:
+#             return Response(reservation_serialized.data , status= status.HTTP_400_BAD_REQUEST)
